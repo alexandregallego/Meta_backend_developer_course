@@ -10,3 +10,8 @@ class MenuItemsView(generics.ListCreateAPIView):
     serializer_class = MenuItemSerializer
     ordering_fields = ['price']
     search_fields = ['category']
+
+
+class SingleMenuItemView(generics.RetrieveUpdateAPIView, generics.DestroyAPIView):
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemSerializer
