@@ -1,6 +1,6 @@
 from rest_framework import generics
-from .models import MenuItem, Category
-from .serializers import MenuItemSerializer, CategorySerializer
+from .models import MenuItem, Category, Order
+from .serializers import MenuItemSerializer, CategorySerializer, OrderSerializer
 from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
@@ -22,3 +22,8 @@ class SingleMenuItemView(generics.RetrieveUpdateAPIView, generics.DestroyAPIView
             return []
 
         return [IsAuthenticated()]
+
+
+class OrdersView(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

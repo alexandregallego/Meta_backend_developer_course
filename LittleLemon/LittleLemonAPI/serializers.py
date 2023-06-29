@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import MenuItem, Category
+from .models import MenuItem, Category, Order
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -16,3 +16,9 @@ class MenuItemSerializer(serializers.ModelSerializer):
         model = MenuItem
         fields = ['id', 'title', 'price',
                   'featured', 'category', 'category_id']
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['user', 'delivery_crew', 'status', 'total', 'date']
