@@ -19,6 +19,11 @@ class MenuItemSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+
+    delivery_crew_id = serializers.IntegerField(write_only=True)
+
     class Meta:
         model = Order
-        fields = ['user', 'delivery_crew', 'status', 'total', 'date']
+        fields = ['id', 'user', 'delivery_crew',
+                  'status', 'total', 'date', 'delivery_crew_id']
+        read_only_fields = ['id', 'user', 'delivery_crew', 'total', 'date']

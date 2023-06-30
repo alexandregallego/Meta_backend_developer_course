@@ -1,7 +1,7 @@
 from rest_framework import authentication, generics, mixins, permissions
 from .models import MenuItem, Category, Order
 from .serializers import MenuItemSerializer, CategorySerializer, OrderSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 # Create your views here.
 
@@ -16,12 +16,7 @@ class MenuItemsView(generics.ListCreateAPIView):
 class SingleMenuItemView(generics.RetrieveUpdateAPIView, generics.DestroyAPIView):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
-
-    def get_permissions(self):
-        if (self.request.method == 'GET'):
-            return []
-
-        return [IsAuthenticated()]
+    permission_classes = [permissions.DjangoModelPermissions]
 
 
 class OrdersView(generics.ListCreateAPIView):
