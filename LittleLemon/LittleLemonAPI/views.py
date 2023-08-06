@@ -1,7 +1,8 @@
-from rest_framework import authentication, generics, mixins, permissions
-from .models import MenuItem, Category, Order
-from .serializers import MenuItemSerializer, CategorySerializer, OrderSerializer
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework import generics, permissions
+from .models import MenuItem, Order
+from .serializers import MenuItemSerializer, OrderSerializer, UserSerializer
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -24,3 +25,27 @@ class OrdersView(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [permissions.DjangoModelPermissions]
+
+
+class ManagersView(generics.ListCreateAPIView):
+    queryset = User.objects.filter(groups__name="Managers")
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+
+class SingleManagersView(generics.DestroyAPIView):
+    queryset = User.objects.filter(groups__name="Managers")
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+
+class DeliveryCrewView(generics.ListCreateAPIView):
+    queryset = User.objects.filter(groups__name="Delivery crew")
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+
+class SingleDeliveryCrewView(generics.DestroyAPIView):
+    queryset = User.objects.filter(groups__name="Delivery crew")
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
